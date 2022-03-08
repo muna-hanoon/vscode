@@ -6,8 +6,9 @@
 import { spawnSync } from 'child_process';
 import { statSync } from 'fs';
 
+// @ts-check
 // Based on https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/linux/rpm/calculate_package_deps.py
-export function calculatePackageDeps(binaryPath: string): Set<string> {
+export function calculatePackageDeps(/** @type string */ binaryPath) {
 	if ((statSync(binaryPath).mode & 0o111) === 0) {
 		throw new Error(`Binary ${binaryPath} needs to have an executable bit set.`);
 	}
@@ -27,8 +28,13 @@ export function calculatePackageDeps(binaryPath: string): Set<string> {
 }
 
 // Based on https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/linux/rpm/merge_package_deps.py
-export function mergePackageDeps(inputDeps: Set<string>[]): Set<string> {
-	const requires = new Set<string>();
+/**
+ *
+ * @param {*} inputDeps
+ * @returns Set<string>
+ */
+export function mergePackageDeps(/** @type Set<string>[] */ inputDeps) {
+	const requires = new Set();
 	for (const depSet of inputDeps) {
 		for (const dep of depSet) {
 			const trimmedDependency = dep.trim();

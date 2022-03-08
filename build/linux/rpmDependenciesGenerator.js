@@ -10,7 +10,8 @@ import { calculatePackageDeps, mergePackageDeps } from './linux-installer/rpm/rp
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
 
-export function getRpmDependencies(): string[] {
+// @ts-check
+export function getRpmDependencies() {
 	// Get the files for which we want to find dependencies.
 	const findResult = spawnSync('find', ['.', '-name', '*.node']);
 	if (findResult.status) {
@@ -20,13 +21,13 @@ export function getRpmDependencies(): string[] {
 	}
 
 	// Filter the files and add on the Code binary.
-	const files: string[] = findResult.stdout.toString().split('\n').filter((file) => {
+	const files = findResult.stdout.toString().split('\n').filter((file) => {
 		return !file.includes('obj.target') && file.includes('build/Release');
 	});
 	files.push('.build/electron/code-oss');
 
 	// Generate the dependencies.
-	const dependencies: Set<string>[] = files.map((file) => calculatePackageDeps(file));
+	const dependencies = files.map((file) => calculatePackageDeps(file));
 
 	// Fetch additional dependencies file.
 	const additionalDeps = readFileSync(resolve(__dirname, 'linux-installer/rpm/additional_deps'));
@@ -35,7 +36,7 @@ export function getRpmDependencies(): string[] {
 
 	// Merge all the dependencies.
 	const mergedDependencies = mergePackageDeps(dependencies);
-	const sortedDependencies: string[] = [];
+	const sortedDependencies = [];
 	for (const dependency of mergedDependencies) {
 		sortedDependencies.push(dependency);
 	}

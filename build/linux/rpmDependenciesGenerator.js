@@ -11,7 +11,7 @@ const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
 // @ts-check
-export function getRpmDependencies() {
+function getRpmDependencies() {
 	// Get the files for which we want to find dependencies.
 	const findResult = spawnSync('find', ['.', '-name', '*.node']);
 	if (findResult.status) {
@@ -43,3 +43,5 @@ export function getRpmDependencies() {
 	sortedDependencies.sort();
 	return sortedDependencies;
 }
+
+exports.getRpmDependencies = getRpmDependencies;

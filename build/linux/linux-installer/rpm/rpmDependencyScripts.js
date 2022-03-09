@@ -8,7 +8,7 @@ const { statSync } = require('fs');
 
 // @ts-check
 // Based on https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/linux/rpm/calculate_package_deps.py
-export function calculatePackageDeps(/** @type string */ binaryPath) {
+function calculatePackageDeps(/** @type string */ binaryPath) {
 	if ((statSync(binaryPath).mode & 0o111) === 0) {
 		throw new Error(`Binary ${binaryPath} needs to have an executable bit set.`);
 	}
@@ -33,7 +33,7 @@ export function calculatePackageDeps(/** @type string */ binaryPath) {
  * @param {*} inputDeps
  * @returns Set<string>
  */
-export function mergePackageDeps(/** @type Set<string>[] */ inputDeps) {
+function mergePackageDeps(/** @type Set<string>[] */ inputDeps) {
 	const requires = new Set();
 	for (const depSet of inputDeps) {
 		for (const dep of depSet) {
@@ -45,3 +45,6 @@ export function mergePackageDeps(/** @type Set<string>[] */ inputDeps) {
 	}
 	return requires;
 }
+
+exports.calculatePackageDeps = calculatePackageDeps;
+exports.mergePackageDeps = mergePackageDeps;

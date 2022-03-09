@@ -5,10 +5,10 @@
 
 'use strict';
 
-import { spawnSync } from 'child_process';
-import { calculatePackageDeps, mergePackageDeps } from './linux-installer/rpm/rpmDependencyScripts';
-import { resolve } from 'path';
-import { readFileSync } from 'fs';
+const { spawnSync } = require('child_process');
+const { calculatePackageDeps, mergePackageDeps } = require('./linux-installer/rpm/rpmDependencyScripts');
+const { resolve } = require('path');
+const { readFileSync } = require('fs');
 
 // @ts-check
 export function getRpmDependencies() {

@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { spawnSync } from 'child_process';
-import { statSync } from 'fs';
+const { spawnSync } = require('child_process');
+const { statSync } = require('fs');
 
 // @ts-check
 // Based on https://source.chromium.org/chromium/chromium/src/+/main:chrome/installer/linux/rpm/calculate_package_deps.py
